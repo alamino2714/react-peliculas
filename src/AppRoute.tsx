@@ -19,11 +19,9 @@ export default function AppRoute() {
     return (
         <Routes>
             <Route path="/" element={<LandingPage />} />
-
             <Route path="/generos" element={<IndiceGeneros />} />
             <Route path="/generos/crear" element={<CrearGenero />} />
             <Route path="/generos/editar/:id" element={<EditarGenero />} />
-
             <Route path="/actores" element={<IndiceActores />} />
             <Route path="/actores/crear" element={<CrearActor />} />
             <Route path="/actores/editar/:id" element={<EditarActor />} />
