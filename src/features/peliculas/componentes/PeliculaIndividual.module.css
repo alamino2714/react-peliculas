@@ -1,0 +1,31 @@
+/* PeliculaIndividual.module.css */
+   
+.div {
+    
+    margin-right: 2%; /* Es mejor usar px que % para control exacto */
+    margin-bottom: 10px;
+    text-align: center;
+     
+}
+ 
+.div p {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.div img {
+    width: 225px; /* Que ocupe el 100% de los 225px del padre */
+    height: 300px;
+    object-fit: cover; /* Evita que la imagen se deforme si no tiene esa proporción */
+    border-radius: 8px;
+}
+ 
+.div a{
+ 
+   text-decoration: none;
+}
+
+.div a:hover {
+    background-color: #0056b3;
+}  
+ 
