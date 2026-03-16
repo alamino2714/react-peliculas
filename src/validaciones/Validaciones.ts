@@ -11,3 +11,18 @@ export function primeraLetraMayuscula() {
         }
     }
 }
+
+
+export function fechaNoFutura() {
+    return {
+        name: 'fecha-no-futura',
+        message: 'La fecha no puede ser futura',
+        test: (valor: string | undefined) => {
+            if (!valor) return true;
+            const vFecha = new Date(valor);
+            const vHoy = new Date(); 
+            return vFecha <= vHoy;
+        }
+    }
+}
+
