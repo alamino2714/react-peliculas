@@ -16,7 +16,7 @@ export default function EditarActor() {
     const[ modeloActor, setModeloActor] =useState<ActorCreacion | undefined> (undefined);
     useEffect ( ()=>{
         const timerId = setTimeout( ()=>{
-            setModeloActor({nombre: 'Yuniel '+ id, fechaNacimiento: '2020-11-29'})
+            setModeloActor({nombre: 'Yuniel '+ id, fechaNacimiento: '2020-11-29', foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chris_Evans_Red_2024.jpg/330px-Chris_Evans_Red_2024.jpg'  })
         },1000);
         return ()=>clearTimeout(timerId);
     },[id])

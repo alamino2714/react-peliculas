@@ -5,14 +5,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Boton from "../../../componentes/Boton";
 import { NavLink } from "react-router";
 import { fechaNoFutura, primeraLetraMayuscula } from "../../../validaciones/Validaciones";
+import SeleccionarImagen from "../../../componentes/SeleccionarImagen";
+
 
 export default function FormularioActor(props: FormularioActorProps) {
 
 
-    const { register, handleSubmit,
+    const { register, handleSubmit, setValue,
         formState: { errors, isValid, isSubmitting }
     } = useForm<ActorCreacion>({resolver: yupResolver(reglasDeValidacion), mode: 'onChange', defaultValues: props.modelo ?? { nombre: '' } });
 
+    const imagenActualUrl: string | undefined = props.modelo?.foto ? props.modelo.foto as string: undefined;
 
     return (
         <form onSubmit= {handleSubmit(props.onSubmit)}>
@@ -26,6 +29,9 @@ export default function FormularioActor(props: FormularioActorProps) {
                 <input type="date" id="fechaNacimiento" autoComplete="off" className="form-control" {...register('fechaNacimiento')} />
                 {errors.fechaNacimiento && <p className="error">{errors.fechaNacimiento.message}</p>}
             </div>
+
+             <SeleccionarImagen label="Foto" imagenURL={imagenActualUrl} imagenSeleccionada={foto => setValue('foto',foto)}/>
+
             <div className="mt-2">
                 <Boton type="submit" disabled={!isValid || isSubmitting}>{isSubmitting ? 'Enviando...' : 'Enviar'}</Boton>
                 <NavLink className="btn btn-secondaty ms-2" to="/actores">Cancelar</NavLink>
