@@ -13,6 +13,7 @@ import CrearPelicula from "./features/peliculas/componentes/CrearPelicula";
 import EditarPelicula from "./features/peliculas/componentes/EditarPelicula";
 import DetallePelicula from "./features/peliculas/componentes/DetallePelicula";
 import RutaNoEncontrada from "./componentes/RutaNoEncontrada";
+import FiltrarPeliculas from "./features/peliculas/componentes/FiltrarPeliculas";
 
 
 export default function AppRoute() {
@@ -33,6 +34,7 @@ export default function AppRoute() {
             <Route path="/peliculas/crear" element={<CrearPelicula />} />
             <Route path="/peliculas/editar/:id" element={<EditarPelicula />} />
             <Route path="/peliculas/detalle/:id" element={<DetallePelicula/>}/>
+            <Route path="/peliculas/filtrar" element={<FiltrarPeliculas/>}/>
 
              <Route path="*" element={<RutaNoEncontrada />} /> 
 
