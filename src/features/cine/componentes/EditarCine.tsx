@@ -11,9 +11,11 @@ export default function EditarCine() {
    
     useEffect( () => {
       setTimeout(()=>{
-        setModeloCine({nombre:'Yun'})
+        setModeloCine({nombre:'Yun', latitud:-34.90905469461325, longitud:-56.19791908941991})
       },1000);
     },[id]);
+
+     
 
    const onSubmit: SubmitHandler<CineCreacion> = async (data) => {
         console.log('editando cine...')

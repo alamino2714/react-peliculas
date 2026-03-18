@@ -6,16 +6,28 @@ import { primeraLetraMayuscula } from "../../../validaciones/Validaciones";
 import Boton from "../../../componentes/Boton";
 import { NavLink } from "react-router";
 import Mapa from "../../../componentes/Mapa/Mapa";
+import type Coordenada from "../../../componentes/Mapa/Coordenada.models";
 
 export default function FormularioCine(props: FormularioCineProps) {
     const { register, handleSubmit,
+           setValue,
            formState: { errors, isValid, isSubmitting } }
         = useForm<CineCreacion>({
-            resolver: yupResolver(reglasDeValidacion),
+              resolver: yupResolver(reglasDeValidacion),
             mode: 'onChange',
             defaultValues: props.modelo ?? { nombre: '' }
         })
 
+  function transformarCoordenadas(): Coordenada[] | undefined{
+     if(props.modelo){
+        const respuesta: Coordenada = {
+            latitud: props.modelo.latitud,
+            longitud: props.modelo.longitud
+        } 
+        return [respuesta];
+     }
+     return undefined;
+  }
 
          return (
             <> 
@@ -25,9 +37,13 @@ export default function FormularioCine(props: FormularioCineProps) {
                     <input type="text" id="idNombre" className="form-control" autoComplete="off" {...register('nombre')}></input>
                     {errors.nombre && <p className="error">{errors.nombre.message}</p>}
                 </div>
-                
+
                 <div className="mt-2">
-                    <Mapa/>
+                    <Mapa coordenadas={transformarCoordenadas()}
+                        lugarSeleccionado={coordenada => {
+                        setValue('latitud', coordenada.latitud, {shouldValidate:true}) 
+                        setValue('longitud', coordenada.longitud, {shouldValidate:true}) 
+                         }}/>
                 </div>
 
                 <div className="mt-2">
@@ -38,10 +54,7 @@ export default function FormularioCine(props: FormularioCineProps) {
              </form>
             </>
          )
-
-
 }
-
 
 interface FormularioCineProps {
     modelo?: CineCreacion;
@@ -49,5 +62,7 @@ interface FormularioCineProps {
 }
 
 const reglasDeValidacion = yup.object({
-    nombre: yup.string().required('El nombr es obligatorio').test(primeraLetraMayuscula())
+    nombre: yup.string().required('El nombr es obligatorio').test(primeraLetraMayuscula()),
+    latitud: yup.number().required(),
+    longitud: yup.number().required()
 });
