@@ -1,6 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import Boton from "../../../componentes/Boton";
-import type Genero from "../../generos/componentes/modelos/Genero.models";
+import type Genero from "../../generos/componentes/modelos/Genero.model";
 
 export default function FiltrarPeliculas() {
 

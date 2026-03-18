@@ -1,6 +1,6 @@
 import type { SubmitHandler } from "react-hook-form";
 import FormularioActor from "./FormularioActor";
-import type ActorCreacion from "./modelos/ActorCreacion.models";
+import type ActorCreacion from "./modelos/ActorCreacion.model";
 
 
 export default function CrearActor(){

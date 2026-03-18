@@ -4,6 +4,7 @@ import type PeliculaCreacion from "../modelos/PeliculaCreacion.model";
 import FormularioPelicula from "./FormularioPelicula";
 import type { SubmitHandler } from "react-hook-form";
 import Cargando from "../../../componentes/Cargando";
+import type Genero from "../../generos/componentes/modelos/Genero.model";
 
 export default function EditarPelicula() {
     
@@ -20,11 +21,22 @@ export default function EditarPelicula() {
                 poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chris_Evans_Red_2024.jpg/330px-Chris_Evans_Red_2024.jpg' })
         },500)
     },[id]);
+   
+       const generosSeleccionados: Genero[] =[  {id:2, nombre: 'Comedia'}];
+       const generosNoSeleccionados: Genero[] =[
+           {id:1, nombre: 'Accion'},         
+           {id:3, nombre: 'Terror'}
+         ];
+       
+
 
     return (
         <>
             <h1>Editar Pelicula</h1>
-            {modeloPelicula ? <FormularioPelicula modelo={ modeloPelicula} onSubmit={onSubmit}/> : <Cargando/> }
+            {  modeloPelicula ? 
+              <FormularioPelicula modelo={ modeloPelicula} onSubmit={onSubmit} generosSeleccionados={generosSeleccionados} generosNoSeleccionados={generosNoSeleccionados}/> :
+               <Cargando/> 
+              }
 
         </>)
 }

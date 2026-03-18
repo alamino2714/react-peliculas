@@ -5,21 +5,41 @@ import * as yup from 'yup';
 import SeleccionarImagen from "../../../componentes/SeleccionarImagen";
 import Boton from "../../../componentes/Boton";
 import { NavLink } from "react-router";
+import SelectorMultiple from "../../../componentes/SelectorMultiple/SelectorMultiple";
+import type Genero from "../../generos/componentes/modelos/Genero.model";
+import type SelectorMultipleModel from "../../../componentes/SelectorMultiple/SelectorMultiple.model";
+import { useState } from "react";
+
 
 export default function FormularioPelicula(props:FormularioPeliculaProps)
 {
-    const { register, handleSubmit, setValue, formState:{errors, isValid, isSubmitting}
+   const { register, handleSubmit, setValue, formState:{errors, isValid, isSubmitting}
           } = useForm<PeliculaCreacion>({
              resolver:yupResolver(reglasDeValidacion),
              mode:'onChange',
              defaultValues:props.modelo??{titulo:''}
           } )
 
-     const imagenActualURL: string |undefined =props.modelo?.poster ? props.modelo.poster as string : undefined;     
+  const imagenActualURL: string |undefined =props.modelo?.poster ? props.modelo.poster as string : undefined;    
+  
+  const mapearGenero = (arreglo: {id: number, nombre:string}[]): SelectorMultipleModel[] =>{
+    return arreglo.map (valor=> {
+        return {llave: valor.id, descripcion: valor.nombre}
+    })
+  }
+
+  const [generosSeleccionados, setGenerosSeleccionados] = useState(mapearGenero(props.generosSeleccionados));
+  const [generosNoSeleccionados, setGenerosNoSeleccionados] = useState(mapearGenero(props.generosNoSeleccionados));
+ 
+  const onSubmit: SubmitHandler<PeliculaCreacion> = (data)=>{
+    data.generosIds = generosSeleccionados.map(id=> id.llave);
+    props.onSubmit(data);
+  }
+   
 
    return(
     <>
-       <form onSubmit={handleSubmit(props.onSubmit)}>
+       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">
             <label htmlFor="idTitulo"> Titulo</label>
             <input id="idTitulo" className="form-control" autoComplete="off" type="text" {...register('titulo')}/>
@@ -36,10 +56,20 @@ export default function FormularioPelicula(props:FormularioPeliculaProps)
         </div>
        
         <SeleccionarImagen label="Poster" imagenURL={imagenActualURL} imagenSeleccionada={poster => { setValue('poster',poster);}} />
+
+         <div className="form-group" >
+            <label> Géneros: </label>
+            <SelectorMultiple seleccionados={generosSeleccionados} noSeleccionados={generosNoSeleccionados} 
+                    onChange={(seleccionados, noSeleccionados) => {
+                        setGenerosSeleccionados(seleccionados);
+                        setGenerosNoSeleccionados(noSeleccionados);
+                    }}>
+            </SelectorMultiple>
+         </div>   
        
         <div className="mt-2">
             <Boton type="submit" disabled={!isValid || isSubmitting}>{isSubmitting? 'Enviado...' : 'Enviar'} </Boton>
-            <NavLink to="/peliculas" className="btn btn-secondary ms-2">Cancelar</NavLink>
+            <NavLink to="/" className="btn btn-secondary ms-2">Cancelar</NavLink>
         </div>
 
 
@@ -52,6 +82,8 @@ export default function FormularioPelicula(props:FormularioPeliculaProps)
 interface FormularioPeliculaProps{
     modelo?:PeliculaCreacion;
     onSubmit:SubmitHandler<PeliculaCreacion>;
+    generosSeleccionados: Genero[];
+     generosNoSeleccionados: Genero[];
 }
 
 const reglasDeValidacion = yup.object({

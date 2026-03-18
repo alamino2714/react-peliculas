@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import type GeneroCreacion from "./modelos/GeneroCreacion.models";
+import type GeneroCreacion from "./modelos/GeneroCreacion.model";
 import FormularioGenero from "./FormularioGenero";
 import type { SubmitHandler } from "react-hook-form";
 import Cargando from "../../../componentes/Cargando";

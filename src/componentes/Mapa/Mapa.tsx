@@ -1,5 +1,5 @@
 import { MapContainer, Marker, Popup, TileLayer, useMapEvent } from "react-leaflet";
-import type Coordenada from "./Coordenada.models";
+import type Coordenada from "./Coordenada.model";
 import { useState } from "react";
 
 export default function Mapa(props:MapaProps) {

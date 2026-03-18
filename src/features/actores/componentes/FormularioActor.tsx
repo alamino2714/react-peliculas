@@ -1,4 +1,4 @@
-import type ActorCreacion from "./modelos/ActorCreacion.models";
+import type ActorCreacion from "./modelos/ActorCreacion.model";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";

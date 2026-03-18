@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import type ActorCreacion from "./modelos/ActorCreacion.models";
+import type ActorCreacion from "./modelos/ActorCreacion.model";
 import FormularioActor from "./FormularioActor";
 import Cargando from "../../../componentes/Cargando";
 import type { SubmitHandler } from "react-hook-form";

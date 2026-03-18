@@ -1,6 +1,6 @@
 import type { SubmitHandler } from "react-hook-form";
 import FormularioCine from "./FormularioCine";
-import type CineCreacion from "./modelos/CineCreacion.models";
+import type CineCreacion from "./modelos/CineCreacion.model";
 
 export default function CrearCine()
 { 

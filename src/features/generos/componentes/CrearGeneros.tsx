@@ -1,6 +1,6 @@
 
 import { type SubmitHandler } from "react-hook-form";
-import type GeneroCreacion from "./modelos/GeneroCreacion.models";
+import type GeneroCreacion from "./modelos/GeneroCreacion.model";
 import FormularioGenero from "./FormularioGenero";
 
 
