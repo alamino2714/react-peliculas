@@ -2,6 +2,7 @@ import type { SubmitHandler } from "react-hook-form";
 import FormularioPelicula from "./FormularioPelicula";
 import type PeliculaCreacion from "../modelos/PeliculaCreacion.model";
 import type Genero from "../../generos/componentes/modelos/Genero.model";
+import type Cine from "../../cine/componentes/modelos/Cine.model";
 
 export default function CrearPelicula()
 {
@@ -17,12 +18,21 @@ export default function CrearPelicula()
         {id:2, nombre: 'Comedia'},
         {id:3, nombre: 'Terror'}
       ];
-    
+    const cinesSeleccionados: Cine[] =[];
+    const cinesNoSeleccionados: Cine[] =[
+        { id:1, nombre:'Primero',latitud:0, longitud:0 },
+        {id:2, nombre: 'Segundo',latitud:0, longitud:0},
+        {id:3, nombre: 'Tercero',latitud:0, longitud:0}
+      ];
+
 
     
     return (  <> 
     <h1>Crear Pelicula</h1>
-    <FormularioPelicula onSubmit={onSubmit} generosSeleccionados={generosSeleccionados} generosNoSeleccionados={generosNoSeleccionados}/>
+    <FormularioPelicula onSubmit={onSubmit}
+          generosSeleccionados={generosSeleccionados} generosNoSeleccionados={generosNoSeleccionados}
+          cinesSeleccionados={ cinesSeleccionados} cinesNoSeleccionados={cinesNoSeleccionados}
+    />
    </>
 
 )

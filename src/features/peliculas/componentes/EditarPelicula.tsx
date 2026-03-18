@@ -5,6 +5,7 @@ import FormularioPelicula from "./FormularioPelicula";
 import type { SubmitHandler } from "react-hook-form";
 import Cargando from "../../../componentes/Cargando";
 import type Genero from "../../generos/componentes/modelos/Genero.model";
+import type Cine from "../../cine/componentes/modelos/Cine.model";
 
 export default function EditarPelicula() {
     
@@ -27,6 +28,11 @@ export default function EditarPelicula() {
            {id:1, nombre: 'Accion'},         
            {id:3, nombre: 'Terror'}
          ];
+        const cinesSeleccionados: Cine[] =[{id:2, nombre: 'Segundo',latitud:0, longitud:0}];
+          const cinesNoSeleccionados: Cine[] =[
+              { id:1, nombre:'Primero',latitud:0, longitud:0 },              
+              {id:3, nombre: 'Tercero',latitud:0, longitud:0}
+            ];
        
 
 
@@ -34,7 +40,10 @@ export default function EditarPelicula() {
         <>
             <h1>Editar Pelicula</h1>
             {  modeloPelicula ? 
-              <FormularioPelicula modelo={ modeloPelicula} onSubmit={onSubmit} generosSeleccionados={generosSeleccionados} generosNoSeleccionados={generosNoSeleccionados}/> :
+              <FormularioPelicula modelo={ modeloPelicula} onSubmit={onSubmit} 
+                  generosSeleccionados={generosSeleccionados} generosNoSeleccionados={generosNoSeleccionados}
+                  cinesSeleccionados={cinesSeleccionados} cinesNoSeleccionados={cinesNoSeleccionados}
+                  /> :
                <Cargando/> 
               }
 

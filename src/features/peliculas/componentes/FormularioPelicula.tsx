@@ -9,6 +9,7 @@ import SelectorMultiple from "../../../componentes/SelectorMultiple/SelectorMult
 import type Genero from "../../generos/componentes/modelos/Genero.model";
 import type SelectorMultipleModel from "../../../componentes/SelectorMultiple/SelectorMultiple.model";
 import { useState } from "react";
+import type Cine from "../../cine/componentes/modelos/Cine.model";
 
 
 export default function FormularioPelicula(props:FormularioPeliculaProps)
@@ -22,17 +23,20 @@ export default function FormularioPelicula(props:FormularioPeliculaProps)
 
   const imagenActualURL: string |undefined =props.modelo?.poster ? props.modelo.poster as string : undefined;    
   
-  const mapearGenero = (arreglo: {id: number, nombre:string}[]): SelectorMultipleModel[] =>{
+  const mapearId = (arreglo: {id: number, nombre:string}[]): SelectorMultipleModel[] =>{
     return arreglo.map (valor=> {
         return {llave: valor.id, descripcion: valor.nombre}
     })
   }
 
-  const [generosSeleccionados, setGenerosSeleccionados] = useState(mapearGenero(props.generosSeleccionados));
-  const [generosNoSeleccionados, setGenerosNoSeleccionados] = useState(mapearGenero(props.generosNoSeleccionados));
+  const [generosSeleccionados, setGenerosSeleccionados] = useState(mapearId(props.generosSeleccionados));
+  const [generosNoSeleccionados, setGenerosNoSeleccionados] = useState(mapearId(props.generosNoSeleccionados));
+  const [cinesSeleccionados, setCinesSeleccionados] = useState(mapearId(props.cinesSeleccionados));
+  const [cinesNoSeleccionados, setCinesNoSeleccionados] = useState(mapearId(props.cinesNoSeleccionados));
  
   const onSubmit: SubmitHandler<PeliculaCreacion> = (data)=>{
     data.generosIds = generosSeleccionados.map(id=> id.llave);
+    data.cinesIds = cinesSeleccionados.map(id=> id.llave);
     props.onSubmit(data);
   }
    
@@ -66,6 +70,16 @@ export default function FormularioPelicula(props:FormularioPeliculaProps)
                     }}>
             </SelectorMultiple>
          </div>   
+
+         <div className="form-group" >
+            <label> Cines: </label>
+            <SelectorMultiple seleccionados={cinesSeleccionados} noSeleccionados={cinesNoSeleccionados} 
+                    onChange={(seleccionados, noSeleccionados) => {
+                        setCinesSeleccionados(seleccionados);
+                        setCinesNoSeleccionados(noSeleccionados);
+                    }}>
+            </SelectorMultiple>
+         </div>  
        
         <div className="mt-2">
             <Boton type="submit" disabled={!isValid || isSubmitting}>{isSubmitting? 'Enviado...' : 'Enviar'} </Boton>
@@ -83,7 +97,9 @@ interface FormularioPeliculaProps{
     modelo?:PeliculaCreacion;
     onSubmit:SubmitHandler<PeliculaCreacion>;
     generosSeleccionados: Genero[];
-     generosNoSeleccionados: Genero[];
+    generosNoSeleccionados: Genero[];
+    cinesSeleccionados: Cine[];
+    cinesNoSeleccionados: Cine[];
 }
 
 const reglasDeValidacion = yup.object({
