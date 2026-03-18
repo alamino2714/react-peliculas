@@ -32,6 +32,7 @@ export default function CrearPelicula()
     <FormularioPelicula onSubmit={onSubmit}
           generosSeleccionados={generosSeleccionados} generosNoSeleccionados={generosNoSeleccionados}
           cinesSeleccionados={ cinesSeleccionados} cinesNoSeleccionados={cinesNoSeleccionados}
+          actoresSeleccionados={[]}
     />
    </>
 

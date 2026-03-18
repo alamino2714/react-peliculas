@@ -6,6 +6,7 @@ import type { SubmitHandler } from "react-hook-form";
 import Cargando from "../../../componentes/Cargando";
 import type Genero from "../../generos/componentes/modelos/Genero.model";
 import type Cine from "../../cine/componentes/modelos/Cine.model";
+import type ActorPelicula from "../modelos/ActorPelicula.model";
 
 export default function EditarPelicula() {
     
@@ -34,7 +35,10 @@ export default function EditarPelicula() {
               {id:3, nombre: 'Tercero',latitud:0, longitud:0}
             ];
        
-
+      const actoresSeleccionados: ActorPelicula[] = [
+             {id:2, nombre:'Segundo', personaje: 'Peronsaje2', foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chris_Evans_Red_2024.jpg/330px-Chris_Evans_Red_2024.jpg'},
+             {id:3, nombre:'Tercero', personaje: 'Peronsaje3', foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chris_Evans_Red_2024.jpg/330px-Chris_Evans_Red_2024.jpg'}
+          ] 
 
     return (
         <>
@@ -43,6 +47,7 @@ export default function EditarPelicula() {
               <FormularioPelicula modelo={ modeloPelicula} onSubmit={onSubmit} 
                   generosSeleccionados={generosSeleccionados} generosNoSeleccionados={generosNoSeleccionados}
                   cinesSeleccionados={cinesSeleccionados} cinesNoSeleccionados={cinesNoSeleccionados}
+                  actoresSeleccionados={actoresSeleccionados}
                   /> :
                <Cargando/> 
               }
