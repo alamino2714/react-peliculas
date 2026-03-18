@@ -1,11 +1,29 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router"
+import type CineCreacion from "./modelos/CineCreacion.models";
+import FormularioCine from "./FormularioCine";
+import type { SubmitHandler } from "react-hook-form";
+import Cargando from "../../../componentes/Cargando";
 
 export default function EditarCine() {
     const { id } = useParams();
+    const [modeloCine, setModeloCine] = useState<CineCreacion | undefined>(undefined);
+   
+    useEffect( () => {
+      setTimeout(()=>{
+        setModeloCine({nombre:'Yun'})
+      },1000);
+    },[id]);
+
+   const onSubmit: SubmitHandler<CineCreacion> = async (data) => {
+        console.log('editando cine...')
+         await new Promise(resolve => setTimeout(resolve,500));
+        console.log(data);
+      }
     return (
         <>
-            <h3>Editar Cine </h3>
-            <p>El id es: {id}</p>
+             <h3>Editar Cine </h3>
+             {modeloCine? <FormularioCine modelo={modeloCine} onSubmit={onSubmit}/> : <Cargando/> }
         </>
     )
 }
