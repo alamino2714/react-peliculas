@@ -10,6 +10,7 @@ import type Genero from "../../generos/componentes/modelos/Genero.model";
 import type SelectorMultipleModel from "../../../componentes/SelectorMultiple/SelectorMultiple.model";
 import { useState } from "react";
 import type Cine from "../../cine/componentes/modelos/Cine.model";
+import TypeAheadActores from "./TypeAheadActores";
 
 
 export default function FormularioPelicula(props:FormularioPeliculaProps)
@@ -80,7 +81,10 @@ export default function FormularioPelicula(props:FormularioPeliculaProps)
                     }}>
             </SelectorMultiple>
          </div>  
-       
+            <div className="form-group" >
+                <TypeAheadActores></TypeAheadActores>
+            </div>
+
         <div className="mt-2">
             <Boton type="submit" disabled={!isValid || isSubmitting}>{isSubmitting? 'Enviado...' : 'Enviar'} </Boton>
             <NavLink to="/" className="btn btn-secondary ms-2">Cancelar</NavLink>
