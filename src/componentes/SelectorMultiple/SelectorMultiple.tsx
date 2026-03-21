@@ -8,10 +8,11 @@ export default function SelectorMultiple(props:SelectorMultipleProps)
         const noSeleccionadosAux =  props.noSeleccionados.filter(valor => valor!==item);
         props.onChange(seleccionadosAux, noSeleccionadosAux);
     }
-    const noSeleccionar = (item:SelectorMultipleModel) => {
-        const seleccionadosAux =  props.noSeleccionados.filter(valor => valor!==item);
-        const noSeleccionadosAux =  [...props.seleccionados,item];
+    const noSeleccionar = (item:SelectorMultipleModel) => {       
+        const seleccionadosAux =  props.seleccionados.filter(valor => valor!==item);  
+        const noSeleccionadosAux =   [...props.noSeleccionados,item];
         props.onChange(seleccionadosAux, noSeleccionadosAux);
+         
     }
    const seleccionarTodo = () => {
         const seleccionadosAux = [...props.seleccionados, ...props.noSeleccionados];
