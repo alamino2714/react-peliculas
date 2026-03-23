@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import {  Route, Routes } from "react-router";
 import LandingPage from "./features/home/componentes/LandingPage";
 import IndiceGeneros from "./features/generos/componentes/indiceGeneros";
 import EditarGenero from "./features/generos/componentes/EditarGenero";
@@ -14,6 +14,7 @@ import EditarPelicula from "./features/peliculas/componentes/EditarPelicula";
 import DetallePelicula from "./features/peliculas/componentes/DetallePelicula";
 import RutaNoEncontrada from "./componentes/RutaNoEncontrada";
 import FiltrarPeliculas from "./features/peliculas/componentes/FiltrarPeliculas";
+ 
 
 
 export default function AppRoute() {

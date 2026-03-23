@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type Pelicula from "../modelos/peliculas.model";
 import styles from "./PeliculaIndividual.module.css";
 
@@ -8,10 +9,10 @@ export default function PeliculaIndividual(props: PeliculaIndividualProps)
   
     return (
         <div className={styles.div}>
-            <a href={construirUrlDetalle()}>
+            <Link to={construirUrlDetalle()}  > 
                 <img src={props.pelicula.poster} alt={props.pelicula.titulo} />
-            </a>
-            <p> <a  href={construirUrlDetalle()}>{props.pelicula.titulo}</a> </p>   
+            </Link>
+            <p> <Link to={construirUrlDetalle()}  > {props.pelicula.titulo} </Link> </p>   
              {/* <p>{props.pelicula.sinopsis}</p>   */}  
         </div>
     )

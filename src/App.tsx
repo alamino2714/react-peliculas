@@ -1,19 +1,20 @@
-import { BrowserRouter } from 'react-router';
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import "./App.css";
 import Menu from "./componentes/Menu";
 import AppRoute from './AppRoute';
+import { HashRouter } from 'react-router';
 
 export default function App() {
 
   return (
     <>
-      <BrowserRouter>
+       <HashRouter>
         <Menu />
         <div className="container mb-4">
             <AppRoute/>          
         </div>
-      </BrowserRouter>
+        </HashRouter>
+      
     </>
   )
 }
