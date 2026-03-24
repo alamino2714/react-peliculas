@@ -17,15 +17,13 @@ export default function CrearGenero() {
     const onSubmit: SubmitHandler<GeneroCreacion> = async (data) => {
         try{
           console.log('Creando el genero');
-          await  clienteAPI.post('/Generos',data);//.then(()=> navigate('/generos'))
+          await  clienteAPI.post('/Generos',data);       // await new Promise(resolve => setTimeout(resolve,2000));
           navigate('/generos');
-           // await new Promise(resolve => setTimeout(resolve,2000));
            console.log(data);
         }
-        catch(err){
-            console.log(err);
-            const errors = extraerErrores(err as AxiosError);
-            setErrores(errors);
+        catch(err){           
+            const errores = extraerErrores(err as AxiosError);
+            setErrores(errores);
         }
     };
 

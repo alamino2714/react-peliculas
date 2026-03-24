@@ -28,7 +28,7 @@ export default function EditarGenero() {
     return (
         <>
             <h3>Editar Genero</h3>
-            {modeloGenero ?<FormularioGenero modelo={modeloGenero} onSubmit={onSubmit} /> : <Cargando/>}
+            {modeloGenero ?<FormularioGenero modelo={modeloGenero} errores={[]} onSubmit={onSubmit} /> : <Cargando/>}
         </>
     )
 
