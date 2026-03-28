@@ -1,4 +1,4 @@
-import type ActorCreacion from "./modelos/ActorCreacion.model";
+import type ActorCreacion from "../modelos/ActorCreacion.model";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,6 +6,7 @@ import Boton from "../../../componentes/Boton";
 import { NavLink } from "react-router";
 import { fechaNoFutura, primeraLetraMayuscula } from "../../../validaciones/Validaciones";
 import SeleccionarImagen from "../../../componentes/SeleccionarImagen";
+import MostrarErrores from "../../../componentes/MostrarErrores";
 
 
 export default function FormularioActor(props: FormularioActorProps) {
@@ -18,6 +19,9 @@ export default function FormularioActor(props: FormularioActorProps) {
     const imagenActualUrl: string | undefined = props.modelo?.foto ? props.modelo.foto as string: undefined;
 
     return (
+        <>
+        <MostrarErrores errores={props.errores}/>
+        
         <form onSubmit= {handleSubmit(props.onSubmit)}>
             <div className="form-group">
                 <label htmlFor="nombre"> Nombre: </label>
@@ -37,6 +41,7 @@ export default function FormularioActor(props: FormularioActorProps) {
                 <NavLink className="btn btn-secondaty ms-2" to="/actores">Cancelar</NavLink>
             </div>
         </form>
+        </>
     )
 
 }
@@ -44,6 +49,7 @@ export default function FormularioActor(props: FormularioActorProps) {
 interface FormularioActorProps {
     modelo?: ActorCreacion;
     onSubmit: SubmitHandler<ActorCreacion>;
+    errores:string[];
 }
 
 const reglasDeValidacion = yup.object({

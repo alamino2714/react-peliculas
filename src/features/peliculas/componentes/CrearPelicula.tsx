@@ -1,8 +1,8 @@
 import type { SubmitHandler } from "react-hook-form";
 import FormularioPelicula from "./FormularioPelicula";
 import type PeliculaCreacion from "../modelos/PeliculaCreacion.model";
-import type Genero from "../../generos/componentes/modelos/Genero.model";
-import type Cine from "../../cine/componentes/modelos/Cine.model";
+import type Genero from "../../generos/modelos/Genero.model";
+import type Cine from "../../cine/modelos/Cine.model";
 
 export default function CrearPelicula()
 {

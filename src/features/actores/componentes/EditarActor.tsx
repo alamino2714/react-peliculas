@@ -1,32 +1,55 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import type ActorCreacion from "./modelos/ActorCreacion.model";
+import { useNavigate, useParams } from "react-router";
+import type ActorCreacion from "../modelos/ActorCreacion.model";
 import FormularioActor from "./FormularioActor";
 import Cargando from "../../../componentes/Cargando";
 import type { SubmitHandler } from "react-hook-form";
+import clienteAPI from "../../../api/clienteAxios";
+import type Actor from "../modelos/Actor.model";
+import formatearFecha from "../../../utilidades/formatearFecha";
+import { extraerErrores } from "../../../utilidades/extraerErrores";
+import type { AxiosError } from "axios";
+import { useState, useEffect } from "react";
  
- 
-const onSubmit: SubmitHandler<ActorCreacion> = async (data) =>{
-    console.log('editando actor...');
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    console.log(data);
-}
+
 export default function EditarActor() {
-    const { id } = useParams();
-    const[ modeloActor, setModeloActor] =useState<ActorCreacion | undefined> (undefined);
+
+     const { id } = useParams();
+     const [errores, setErrores] = useState<string[]>([]);
+     const[ modeloActor, setModeloActor] =useState<ActorCreacion | undefined> (undefined);
+     const navigate = useNavigate();
+
     useEffect ( ()=>{
-        const timerId = setTimeout( ()=>{
-            setModeloActor({nombre: 'Yuniel '+ id, fechaNacimiento: '2020-11-29', foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chris_Evans_Red_2024.jpg/330px-Chris_Evans_Red_2024.jpg'  })
-        },1000);
-        return ()=>clearTimeout(timerId);
+      clienteAPI.get<Actor>(`/Actores/${id}`).then (respuesta =>{
+        
+        const actor = respuesta.data;
+        const actorCreacion : ActorCreacion = {
+            nombre:actor.nombre,
+            fechaNacimiento:formatearFecha(actor.fechaNacimiento),
+            foto: actor.foto        
+        };
+        setModeloActor(actorCreacion);
+      });
+
+
     },[id])
 
-   
+    const onSubmit: SubmitHandler<ActorCreacion> = async (data) =>{
+    console.log('editando actor...');
+    try{
+        await clienteAPI.putForm(`/Actores/${id}`,data);
+        navigate('/actores');
+    }catch(errors)
+    {
+        const errores = extraerErrores(errors as AxiosError);
+        setErrores(errores);
+    }
+
+}
 
     return (
         <>
             <h3>Editar Actor</h3>
-           {modeloActor ? <FormularioActor modelo={modeloActor} onSubmit={onSubmit}/> : <Cargando/>}
+           {modeloActor ? <FormularioActor modelo={modeloActor} onSubmit={onSubmit} errores={errores}/> : <Cargando/>}
         </>
     )
 

@@ -6,10 +6,10 @@ import SeleccionarImagen from "../../../componentes/SeleccionarImagen";
 import Boton from "../../../componentes/Boton";
 import { NavLink } from "react-router";
 import SelectorMultiple from "../../../componentes/SelectorMultiple/SelectorMultiple";
-import type Genero from "../../generos/componentes/modelos/Genero.model";
+import type Genero from "../../generos/modelos/Genero.model";
 import type SelectorMultipleModel from "../../../componentes/SelectorMultiple/SelectorMultiple.model";
 import { useState } from "react";
-import type Cine from "../../cine/componentes/modelos/Cine.model";
+import type Cine from "../../cine/modelos/Cine.model";
 import TypeAheadActores from "./TypeAheadActores";
 import type ActorPelicula from "../modelos/ActorPelicula.model";
 

@@ -1,5 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type GeneroCreacion from "./modelos/GeneroCreacion.model";
+import type GeneroCreacion from "../modelos/GeneroCreacion.model";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Boton from "../../../componentes/Boton";
