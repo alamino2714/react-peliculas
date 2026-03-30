@@ -1,40 +1,69 @@
-import type { SubmitHandler } from "react-hook-form";
 import FormularioPelicula from "./FormularioPelicula";
 import type PeliculaCreacion from "../modelos/PeliculaCreacion.model";
 import type Genero from "../../generos/modelos/Genero.model";
 import type Cine from "../../cine/modelos/Cine.model";
+import { useEffect, useState } from "react";
+import clienteAPI from "../../../api/clienteAxios";
+import Cargando from "../../../componentes/Cargando";
+import type { SubmitHandler } from "react-hook-form";
+import convertirPeliculaAFromData from "../utilidades/convertirPeliculaAFromData";
+import type Pelicula from "../modelos/Pelicula.model";
+import { extraerErrores } from "../../../utilidades/extraerErrores";
+import type { AxiosError } from "axios";
+import { useNavigate } from "react-router";
 
-export default function CrearPelicula()
-{
-    const onSubmit: SubmitHandler<PeliculaCreacion> =async (data) =>{
-        console.log('creando pelicula...');
-        await new Promise( resolve => setTimeout(resolve,500));
-        console.log(data);
-    }   
-
-    const generosSeleccionados: Genero[] =[];
-    const generosNoSeleccionados: Genero[] =[
-        {id:1, nombre: 'Accion'},
-        {id:2, nombre: 'Comedia'},
-        {id:3, nombre: 'Terror'}
-      ];
-    const cinesSeleccionados: Cine[] =[];
-    const cinesNoSeleccionados: Cine[] =[
-        { id:1, nombre:'Primero',latitud:0, longitud:0 },
-        {id:2, nombre: 'Segundo',latitud:0, longitud:0},
-        {id:3, nombre: 'Tercero',latitud:0, longitud:0}
-      ];
+export default function CrearPelicula() {
+  const navigate = useNavigate();
+  const [generosNoSeleccionados, setGenerosNoSeleccionados] = useState<Genero[]>([]);
+  const [cinesNoSeleccionados, setCinesNoSeleccionados] = useState<Cine[]>([]);
+  const [cargando, setCargando] = useState(true);
+  const [errores, setErrores] = useState<string[]>([]);
 
 
-    
-    return (  <> 
+  useEffect(() => {
+    clienteAPI.get('/peliculas/postget')
+      .then(respuesta => {
+        setGenerosNoSeleccionados(respuesta.data.generos);
+        setCinesNoSeleccionados(respuesta.data.cines);
+        setCargando(false);
+        console.log(respuesta.data);
+      })
+  }, []);
+
+
+
+  const onSubmit: SubmitHandler<PeliculaCreacion> = async (data) => {
+  try {
+        const formdata = convertirPeliculaAFromData(data);
+        const respuesta = await clienteAPI.postForm<Pelicula>('/peliculas', formdata);
+        navigate(`/peliculas/detalle/${respuesta.data.id}`);
+
+
+ 
+    } catch (error) {
+        const errores = extraerErrores(error as AxiosError);
+        setErrores(errores);
+         
+    }
+
+
+    console.log('creando pelicula...');
+    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log(data);
+  }
+  return (<>
     <h1>Crear Pelicula</h1>
-    <FormularioPelicula onSubmit={onSubmit}
-          generosSeleccionados={generosSeleccionados} generosNoSeleccionados={generosNoSeleccionados}
-          cinesSeleccionados={ cinesSeleccionados} cinesNoSeleccionados={cinesNoSeleccionados}
-          actoresSeleccionados={[]}
-    />
-   </>
+    {cargando ? <Cargando /> :
+      <FormularioPelicula onSubmit={onSubmit} errores={errores}
+        generosSeleccionados={[]} generosNoSeleccionados={generosNoSeleccionados}
+        cinesSeleccionados={[]} cinesNoSeleccionados={cinesNoSeleccionados}
+        actoresSeleccionados={[]}
+      />
+    }
 
-)
+  </>
+
+  )
 }
+
+ 

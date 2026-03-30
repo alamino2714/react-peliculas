@@ -1,74 +1,39 @@
-import { useNavigate } from "react-router";
-import Boton from "../../../componentes/Boton";
-import ListadoGenerico from "../../peliculas/componentes/ListadoGenerico";
-import Paginacion from "../../../componentes/Paginacion";
-import Cargando from "../../../componentes/Cargando";
-import { useGeneros } from "../hooks/useGeneros";
-import clienteAPI from "../../../api/clienteAxios";
-import confirmarBorrar from "../../../utilidades/confirmarBorrar";
+import { useEntidades } from "../../../hooks/useEntidades";
+import type Genero from "../modelos/Genero.model";
+import IndiceEntidades from "../../../componentes/IndiceEntidades";
 
 export default function IndiceGeneros() {
-    const navigate = useNavigate();
-    const  {cargando,pagina,setPagina, recordPorPagina,setRecordsPorPagina, cantTotalRegistros,generos,cargarRegistros } = useGeneros();
-
-    const borrarReg = async (id:number)=> {
-        try{
-            await clienteAPI.delete(`/Generos/${id}`)
-            if(pagina === 1){
-                cargarRegistros();
-            }  
-            else{
-                setPagina(1)
-            }
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-
+   
+    const entidadesHook= useEntidades<Genero>('/Generos');
     return (
         <>
-            <h1>Generos</h1>
-            <div>
-                <Boton onClick={() => navigate('/generos/crear')}>Crear Generos</Boton>
-            </div>
+          <IndiceEntidades<Genero>  
+                 titulo="Generos" nombreEntidad="Genero" url="/generos" urlCrear="/generos/crear"   {...entidadesHook} >
+                {
+                    (generos, botones) =>
+                        <>
+                            <thead>
+                                <tr>
+                                    <th scope="col"> Item  </th>
+                                    <th scope="col"> Nombre  </th>
+                                    <th scope="col" className="text-end"> Acciones </th>
+                                </tr>
+                            </thead>
 
-           {cargando?<Cargando/> :  
-            <div className="mt-4">
-                <div className="mb-2">
-                    <Paginacion paginaActual={pagina} registrosPorPagina={recordPorPagina} cantTotalRegistros={cantTotalRegistros} registrosPorPaginasOpciones={[5, 10, 20, 50]}
-                        onCambioPaginacion={(pagina, recordsPorPagina) => {
-                          setPagina(pagina);
-                          setRecordsPorPagina(recordsPorPagina);
-                        }}
-                    ></Paginacion>
-                </div>
+                            <tbody>
+                                {generos?.map(genero => <tr key={genero.id}>
+                                    <td> {genero.id}</td>
+                                    <td> {genero.nombre}</td>
+                                    <td className="text-end">
+                                        {botones(`/generos/editar/${genero.id}`, genero.id)}
+                                    </td>
 
-                <ListadoGenerico listado={generos}>
-                    <table className="table table-hover align-middle shadow-sm border rounded overflow-hidden">
-                        <thead>
-                            <tr>
-                                <th scope="col"> Nombre  </th>
-                                <th scope="col" className="text-end"> Acciones </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {generos?.map(genero => <tr key={genero.id}>
-                                <td>{genero.nombre}</td>
-                                <td className="text-end">
-                                    <Boton className="btn btn-sm btn-outline-primary me-2" onClick={() => navigate(`/generos/editar/${genero.id}`)}
-                                    > <i className="bi bi-pencil me-1"></i></Boton>
-                                    <Boton className="btn btn-sm btn-outline-danger" onClick={()=> confirmarBorrar( ()=> borrarReg(genero.id))}> 
-                                        <i className="bi bi-trash me-1"></i></Boton>
-                                </td>
-                            </tr>)
-                            }
-                        </tbody>
+                                </tr>)}
 
-                    </table>
-                </ListadoGenerico>
-            </div>
-             }
+                            </tbody>
+                        </>
+                }
+            </IndiceEntidades>
         </>
     )
 }

@@ -1,31 +1,41 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import type CineCreacion from "../modelos/CineCreacion.model";
 import FormularioCine from "./FormularioCine";
 import type { SubmitHandler } from "react-hook-form";
 import Cargando from "../../../componentes/Cargando";
+import clienteAPI from "../../../api/clienteAxios";
+import type { AxiosError } from "axios";
+import { extraerErrores } from "../../../utilidades/extraerErrores";
 
 export default function EditarCine() {
-    const { id } = useParams();
-    const [modeloCine, setModeloCine] = useState<CineCreacion | undefined>(undefined);
-   
-    useEffect( () => {
-      setTimeout(()=>{
-        setModeloCine({nombre:'Yun', latitud:-34.90905469461325, longitud:-56.19791908941991})
-      },1000);
-    },[id]);
+  const { id } = useParams();
+  const [modeloCine, setModeloCine] = useState<CineCreacion | undefined>(undefined);
+  const [errores, setErrores] = useState<string[]>([]);
+  const navigate = useNavigate();
 
-     
+  useEffect(() => {
+    clienteAPI.get<CineCreacion>(`/Cines/${id}`).then(respuesta => {
+      setModeloCine(respuesta.data);
+    }).catch(() => navigate('/cines'));
+  }, [id, navigate]);
 
-   const onSubmit: SubmitHandler<CineCreacion> = async (data) => {
-        console.log('editando cine...')
-         await new Promise(resolve => setTimeout(resolve,500));
-        console.log(data);
-      }
-    return (
-        <>
-             <h3>Editar Cine </h3>
-             {modeloCine? <FormularioCine modelo={modeloCine} onSubmit={onSubmit}/> : <Cargando/> }
-        </>
-    )
+
+
+  const onSubmit: SubmitHandler<CineCreacion> = async (data) => {
+    console.log('editando cine...')
+    try {
+        await clienteAPI.put(`/Cines/${id}`, data);
+        navigate('/cines');
+    } catch (errors) {
+        const errores = extraerErrores(errors as AxiosError);
+        setErrores(errores);
+    }
+  }
+  return (
+    <>
+      <h3>Editar Cine </h3>
+      {modeloCine ? <FormularioCine modelo={modeloCine} onSubmit={onSubmit} errores={errores} /> : <Cargando />}
+    </>
+  )
 }

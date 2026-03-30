@@ -11,11 +11,12 @@ export default function Mapa(props:MapaProps) {
             <TileLayer
                 attribution="Yun Peliculas"
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                {props.editable ?
                 <ClicMapa setPunto={coordenada => {
                       setCoordenadas([coordenada])
                       if(props.lugarSeleccionado)
                         props.lugarSeleccionado(coordenada);
-                }}/>
+                }}/>  : undefined}
 
 
                 {coordenadas?.map(coordenada => 
@@ -29,6 +30,7 @@ export default function Mapa(props:MapaProps) {
 interface MapaProps{
     lugarSeleccionado?:(coordenada:Coordenada)=>void;
     coordenadas?: Coordenada[];
+    editable?:boolean;
 }
 
 
