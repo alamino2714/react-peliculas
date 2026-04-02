@@ -1,4 +1,4 @@
-import {  Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import LandingPage from "./features/home/componentes/LandingPage";
 import IndiceGeneros from "./features/generos/componentes/indiceGeneros";
 import EditarGenero from "./features/generos/componentes/EditarGenero";
@@ -14,30 +14,42 @@ import EditarPelicula from "./features/peliculas/componentes/EditarPelicula";
 import DetallePelicula from "./features/peliculas/componentes/DetallePelicula";
 import RutaNoEncontrada from "./componentes/RutaNoEncontrada";
 import FiltrarPeliculas from "./features/peliculas/componentes/FiltrarPeliculas";
- 
+import RutaProtegida from "./features/seguridad/componentes/RutaProtegida";
+import Registro from "./features/seguridad/componentes/Registro";
+import Login from "./features/seguridad/componentes/Login";
+import IndiceUsuarios from "./features/seguridad/componentes/IndiceUsuarios";
+
 
 
 export default function AppRoute() {
     return (
         <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/generos" element={<IndiceGeneros />} />
-            <Route path="/generos/crear" element={<CrearGenero />} />
-            <Route path="/generos/editar/:id" element={<EditarGenero />} />
-            <Route path="/actores" element={<IndiceActores />} />
-            <Route path="/actores/crear" element={<CrearActor />} />
-            <Route path="/actores/editar/:id" element={<EditarActor />} />
+            
+            <Route element={<RutaProtegida claims={['esadmin']} />} >
+                <Route path="/generos" element={<IndiceGeneros />} />
+                <Route path="/generos/crear" element={<CrearGenero />} />
+                <Route path="/generos/editar/:id" element={<EditarGenero />} />
+                <Route path="/actores" element={<IndiceActores />} />
+                <Route path="/actores/crear" element={<CrearActor />} />
+                <Route path="/actores/editar/:id" element={<EditarActor />} />
 
-            <Route path="/cines" element={<IndiceCines />} />
-            <Route path="/cines/crear" element={<CrearCine />} />
-            <Route path="/cines/editar/:id" element={<EditarCine />} />
+                <Route path="/cines" element={<IndiceCines />} />
+                <Route path="/cines/crear" element={<CrearCine />} />
+                <Route path="/cines/editar/:id" element={<EditarCine />} />
 
-            <Route path="/peliculas/crear" element={<CrearPelicula />} />
-            <Route path="/peliculas/editar/:id" element={<EditarPelicula />} />
-            <Route path="/peliculas/detalle/:id" element={<DetallePelicula/>}/>
-            <Route path="/peliculas/filtrar" element={<FiltrarPeliculas/>}/>
+                <Route path="/peliculas/crear" element={<CrearPelicula />} />
+                <Route path="/peliculas/editar/:id" element={<EditarPelicula />} />
+            </Route>
 
-             <Route path="*" element={<RutaNoEncontrada />} /> 
+            <Route path="/peliculas/detalle/:id" element={<DetallePelicula />} />
+            <Route path="/peliculas/filtrar" element={<FiltrarPeliculas />} />
+
+            <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Registro />} />
+            <Route path="/usuarios" element={<IndiceUsuarios />} />
+
+            <Route path="*" element={<RutaNoEncontrada />} />
 
         </Routes>
     )

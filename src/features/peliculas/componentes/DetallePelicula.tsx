@@ -5,6 +5,9 @@ import Cargando from "../../../componentes/Cargando";
 import type Pelicula from "../modelos/Pelicula.model";
 import type Coordenada from "../../../componentes/Mapa/Coordenada.model";
 import Mapa from "../../../componentes/Mapa/Mapa";
+import Rating from "../../../componentes/Rating/Rating";
+import type RatingCreacion from "../../../componentes/Rating/RatingCreacion.model";
+import Swal from "sweetalert2";
 
 export default function DetallePelicula() {
     const { id } = useParams();
@@ -37,7 +40,6 @@ export default function DetallePelicula() {
         return `https://www.youtube.com/embed/${videoId}`;
     }
 
-
     function transformarCoordenadas(): Coordenada[] {
 
         return pelicula!.cines!.map(cine => {
@@ -46,6 +48,11 @@ export default function DetallePelicula() {
         });
     }
 
+    function manejarVoto (voto:number)
+    {
+        const data: RatingCreacion = {peliculaId: Number(id), puntuacion:voto};
+        clienteAPI.post('/Ratings', data).then(()=> Swal.fire({icon:'success', title:'Voto recibido'}));
+    } 
 
     return (
         <>
@@ -60,7 +67,12 @@ export default function DetallePelicula() {
                         </div>
                     )}
 
-                    <p className="text-muted">Extreno: {fechaLanzamientoFormateada}</p>
+                    <p className="text-muted">Extreno: {fechaLanzamientoFormateada} 
+                        | Puntuacion promedio: {pelicula.promedioVoto} |
+                          Mi Rating <Rating maximoValor={5}  valorSeleccionado={pelicula.votoUsuario}
+                                            onChange={voto => manejarVoto(voto)} 
+                                    />
+                         </p>  
                 </div>
 
                 <div className="d-flex">

@@ -6,6 +6,7 @@ import confirmarBorrar from "../../../utilidades/confirmarBorrar";
 import clienteAPI from "../../../api/clienteAxios";
 import { useContext } from "react";
 import AlertaContext from "../../../utilidades/alertaContext";
+import Autorizado from "../../seguridad/componentes/Autorizado";
 
 export default function PeliculaIndividual(props: PeliculaIndividualProps) {
 
@@ -14,13 +15,13 @@ export default function PeliculaIndividual(props: PeliculaIndividualProps) {
     const alertaDeContext = useContext(AlertaContext);
 
 
-    const borrarPelicula = async (id:number) => {
+    const borrarPelicula = async (id: number) => {
         try {
-            console.log('borrando pelicula...'+ id.toString());
+            console.log('borrando pelicula...' + id.toString());
 
-            await clienteAPI.delete(`/Peliculas/${id}`);   
-            console.log('pelicula borrada');     
-            alertaDeContext();           
+            await clienteAPI.delete(`/Peliculas/${id}`);
+            console.log('pelicula borrada');
+            alertaDeContext();
         } catch (error) {
             console.log(error);
         }
@@ -33,12 +34,18 @@ export default function PeliculaIndividual(props: PeliculaIndividualProps) {
             <Link to={construirUrlDetalle()}  >
                 {props.pelicula.poster ? <img src={props.pelicula.poster} alt={props.pelicula.titulo} /> : <div className={styles.divSinPoster}>Sin poster</div>}
             </Link>
-            <p> <NavLink  to={construirUrlDetalle()}  > {props.pelicula.titulo} </NavLink> </p>
-            {/* <p>{props.pelicula.sinopsis}</p>   */}
-            <div>
-                <Boton onClick={() => navigate(`/peliculas/editar/${props.pelicula.id}`)}>Editar</Boton>
-                <Boton className="btn btn-danger ms-4" onClick={()=>confirmarBorrar(()=>borrarPelicula(props.pelicula.id))}>Borrar</Boton>
-            </div>
+            <p> <NavLink to={construirUrlDetalle()}  > {props.pelicula.titulo} </NavLink> </p>
+
+
+            <Autorizado claims={['esadmin', 'esvendedor']}
+                autorizado={<>
+                    <div>
+                        <Boton onClick={() => navigate(`/peliculas/editar/${props.pelicula.id}`)}>Editar</Boton>
+                        <Boton className="btn btn-danger ms-4" onClick={() => confirmarBorrar(() => borrarPelicula(props.pelicula.id))}>Borrar</Boton>
+                    </div>
+                </>}
+            />
+
 
         </div>
     )

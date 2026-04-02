@@ -1,7 +1,22 @@
-.div{   
-        display: flex;    
-        flex-wrap: wrap;
-        flex-direction: row;    
-        /*  align-items: center;
-        justify-content: center; */
+
+
+
+.div {
+    display: flex;             /* Alinea las películas en fila */
+    overflow-x: auto;         /* Permite el scroll horizontal */
+    gap: 1rem;                /* Espacio entre películas */
+    padding: 10px 0;          /* Espacio para que no se corten las sombras */
+    scrollbar-width: thin;    /* Opcional: scroll más fino en Firefox */
+  
+    
+}
+
+/* Opcional: Ocultar la barra de scroll si prefieres un look más limpio */
+.div::-webkit-scrollbar {
+    height: 8px;
+}
+        
+.div::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
 }

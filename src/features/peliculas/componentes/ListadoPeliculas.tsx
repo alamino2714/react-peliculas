@@ -11,8 +11,8 @@ export default function ListadoPeliculas(props: ListadoPeliculasProps) {
                                    listadoVacioUI = {<Cargando/>}>
             <div className={styles.div}>
                 {props.peliculas?.map(pelicula => <PeliculaIndividual key={pelicula.id} pelicula={pelicula} />)}
-            </div>
-
+            </div>           
+           
         </ListadoGenerico>
     )
 }

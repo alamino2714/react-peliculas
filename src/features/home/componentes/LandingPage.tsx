@@ -23,7 +23,8 @@ export default function LandingPage() {
 
     return (
         <>
-           <AlertaContext.Provider value={() => cargarDatos()}>           
+
+            <AlertaContext.Provider value={() => cargarDatos()}>           
             <h1 className="h1">Peliculas en cines</h1>
             <ListadoPeliculas peliculas={peliculas.peliculasEnCines} />
             <h1 className="h1">Peliculas en estreno</h1>
